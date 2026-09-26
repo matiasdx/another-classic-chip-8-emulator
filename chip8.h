@@ -76,3 +76,6 @@ void init_system(struct system_chip8 *chip8);
 
 // Function to process bits from a ROM and load them
 uint8_t load_rom(struct system_chip8 *chip8, char *rom_dir);
+
+// // Fetch the next 16-bit instruction from memory and advance the program counter.
+uint16_t fetch_instruction(struct system_chip8 *chip8);
