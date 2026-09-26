@@ -73,3 +73,6 @@ struct system_chip8 {
 
 // Function that prepares the system by initializing the PC, clearing RAM, and copying fontsets into RAM
 void init_system(struct system_chip8 *chip8);
+
+// Function to process bits from a ROM and load them
+uint8_t load_rom(struct system_chip8 *chip8, char *rom_dir);
