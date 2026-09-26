@@ -3,6 +3,9 @@
 #define PC_INIT 0x200
 #define PC_END 0xFFF
 
+#define DISPLAY_HEIGHT 32
+#define DISPLAY_LENGTH 64
+
 struct system_chip8 {
     // Registers for general purpose referred to as V[i], where i is a hexadecimal number (0-15)
     uint8_t V[16];
@@ -19,4 +22,13 @@ struct system_chip8 {
     uint16_t PC;
     // The stack is used to store the address that the interpreter should return to when finished with a subroutine.
     uint16_t stack[16];
+
+    //memory of 4k x 1byte, 0x000 to 0x1FF reserved to interpreter. 0x200 to 0xFFF data space.
+    uint8_t RAM[4096];
+    
+    // keyboard, 0-F. 1 if the i-th key is pressed, 0 otherwise
+    uint8_t keyboard[16];
+
+    // display, used a 64x32-pixel monochrome
+    uint8_t framebuffer[DISPLAY_HEIGHT][DISPLAY_LENGTH];
 };
