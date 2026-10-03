@@ -1,4 +1,7 @@
 #include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include "display_tools.h"
 
 const uint8_t chip8_fontset[80] = {
     // 0
@@ -53,14 +56,15 @@ struct system_chip8 {
     // Are non-zero, they are automatically decrementd at a rate of 60hz.
     uint8_t DT;
     uint8_t ST;
-    // The stack pointer (SP) is used to point to the topmost level of the stack
+    // The stack pointer (SP) points to the next free slot in the stack.
+    // It also represents the number of elements currently stored.
     uint8_t SP;
     // The program counter (PC) is used to store the currently executing addresing
     uint16_t PC;
     // The stack is used to store the address that the interpreter should return to when finished with a subroutine.
     uint16_t stack[16];
 
-    //memory of 4k x 1byte, 0x000 to 0x1FF reserved to interpreter. 0x200 to 0xFFF data space.
+    // memory of 4k x 1byte, 0x000 to 0x1FF reserved to interpreter. 0x200 to 0xFFF data space.
     uint8_t RAM[MEMORY_LENGTH];
     
     // keyboard, 0-F. 1 if the i-th key is pressed, 0 otherwise
@@ -77,5 +81,9 @@ void init_system(struct system_chip8 *chip8);
 // Function to process bits from a ROM and load them
 uint8_t load_rom(struct system_chip8 *chip8, char *rom_dir);
 
-// // Fetch the next 16-bit instruction from memory and advance the program counter.
+// Fetch the next 16-bit instruction from memory and advance the program counter.
 uint16_t fetch_instruction(struct system_chip8 *chip8);
+
+// Decode and execute the current 16-bit instruction, modifying the system state
+void decode_instruction(struct system_chip8 *chip8);
+
